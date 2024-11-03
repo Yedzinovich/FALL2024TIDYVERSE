@@ -1,0 +1,74 @@
+---
+title: "Assignment #9 TidyVerse"
+author: "Inna Yedzinovich"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Introduction
+======================================================================================================
+
+In this vignette, I will demonstrate how to utilize the powerful capabilities of the TidyVerse packages to analyze and visualize data. Using a dataset from Kaggle, I will showcase how to perform data manipulation, cleaning, and visualization using functions from the TidyVerse suite. This example will guide you through the process of loading the dataset, transforming the data to extract meaningful insights, and creating compelling visualizations to effectively communicate the results.
+
+The following steps will be covered in the code below:
+
+ - Loading the Dataset: Importing the dataset into R.
+ - Data Cleaning and Transformation: Using dplyr and tidyr to clean and reshape the data.
+ - Data Visualization: Creating visualizations with ggplot2 to explore and present the data.
+
+For this exercise, we will use a dataset from Kaggle.com that contains information about wine quality. (https://www.kaggle.com/datasets/yasserh/wine-quality-dataset?resource=download)
+
+```{r }
+library(tidyverse)
+
+wines <- data.frame(read_csv(file = "https://raw.githubusercontent.com/Yedzinovich/Data-607/refs/heads/main/WineQT.csv"))
+tibble(wines)
+colnames(wines)
+
+```
+
+Now, let’s clean and transform the data:
+
+```{r }
+cleaned_wines <- wines %>%
+  drop_na() %>%
+  rename(
+    fixed_acidity = `fixed.acidity`,
+    volatile_acidity = `volatile.acidity`,
+    citric_acid = `citric.acid`,
+    residual_sugar = `residual.sugar`,
+    free_sulfur_dioxide = `free.sulfur.dioxide`,
+    total_sulfur_dioxide = `total.sulfur.dioxide`
+  ) %>%
+  mutate(acidity_level = case_when(
+    fixed_acidity < 7 ~ "Low",
+    fixed_acidity >= 7 & fixed_acidity <= 10 ~ "Medium",
+    fixed_acidity > 10 ~ "High"
+  ))
+
+head(cleaned_wines)
+
+```
+
+Next, let’s create some visualizations to explore and present the data:
+
+```{r }
+library(ggplot2)
+
+# Histogram of wine quality
+ggplot(cleaned_wines, aes(x = quality)) +
+  geom_histogram(binwidth = 1, fill = "pink", color = "black") +
+  labs(title = "Distribution of Wine Quality", x = "Quality", y = "Count")
+```
+
+Conclusion
+======================================================================================================
+
+As demonstrated above, the TidyVerse packages are among the most versatile and powerful tools available in the R ecosystem. They provide a comprehensive suite of functions for data manipulation, cleaning, and visualization, making it easier to handle and analyze complex datasets efficiently.
