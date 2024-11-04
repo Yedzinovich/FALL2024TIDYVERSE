@@ -28,7 +28,7 @@ For this exercise, we will use a dataset from Kaggle.com that contains informati
 ```{r }
 library(tidyverse)
 
-wines <- data.frame(read_csv(file = "https://raw.githubusercontent.com/Yedzinovich/Data-607/refs/heads/main/WineQT.csv"))
+wines <- data.frame(read_csv(file = "https://raw.githubusercontent.com/Yedzinovich/FALL2024TIDYVERSE/refs/heads/main/WineQT.csv"))
 tibble(wines)
 colnames(wines)
 
